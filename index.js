@@ -1,6 +1,6 @@
 import * as contacts from "./contacts.js";
-
-const invokeAction = async ({ action, contactid, name, email, phone }) => {
+import yargs from "yargs";
+const invokeAction = async ({ action, id, name, email, phone }) => {
   try {
     switch (action) {
       case "list":
@@ -8,7 +8,7 @@ const invokeAction = async ({ action, contactid, name, email, phone }) => {
         console.log(contactsList);
         break;
       case "getById":
-        const oneContact = await contacts.getContactById(contactid);
+        const oneContact = await contacts.getContactById(id);
         console.log(oneContact);
         break;
       case "add":
@@ -16,7 +16,7 @@ const invokeAction = async ({ action, contactid, name, email, phone }) => {
         console.log(newContact);
         break;
       case "removeById":
-        const deletedContact = await contacts.removeContact(contactid);
+        const deletedContact = await contacts.removeContact(id);
         return console.log(deletedContact);
       default:
         console.warn("\x1B[31m Unknown action type!");
@@ -27,12 +27,5 @@ const invokeAction = async ({ action, contactid, name, email, phone }) => {
   }
 };
 
-//invokeAction({ action: "list" });
-//invokeAction({action: "getById", contactid: "drsAJ4SHPYqZeG-83QTVW" });
-//invokeAction({ action: "removeById", contactid: "6-meczLr3BQHeFLoFtaJJ" });
-/*invokeAction({
-  action: "add",
-  name: "Jonh Wick",
-  email: "doggy@style.com",
-  phone: "(228) 337-1482",
-});*/
+const { argv } = yargs(process.argv.slice(2));
+invokeAction(argv);
